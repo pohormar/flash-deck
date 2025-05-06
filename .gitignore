@@ -1,0 +1,21 @@
+# Node.js
+node_modules/
+
+# Build / cache
+.dist/
+build/
+.cache/
+.astro/            # katalog tymczasowy Astro
+.tsbuildinfo      # plik cache TypeScript
+
+# Environment files
+.env
+.env.*.local
+.DS_Store
+
+# Supabase CLI
+.supabase/
+
+# Docker / CI
+docker-compose.override.yml
+*.log
