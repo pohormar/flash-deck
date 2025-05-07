@@ -3,6 +3,7 @@ node_modules/
 
 # Build / cache
 .dist/
+dist/
 build/
 .cache/
 .astro/            # katalog tymczasowy Astro
@@ -11,7 +12,9 @@ build/
 # Environment files
 .env
 .env.*.local
+.env.production
 .DS_Store
+.idea/
 
 # Supabase CLI
 .supabase/
@@ -19,3 +22,9 @@ build/
 # Docker / CI
 docker-compose.override.yml
 *.log
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
