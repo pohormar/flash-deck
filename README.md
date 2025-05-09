@@ -1,4 +1,4 @@
-# 10x Astro Starter
+# flash deck
 
 A modern, opinionated starter template for building fast, accessible, and AI-friendly web applications.
 
@@ -19,8 +19,8 @@ A modern, opinionated starter template for building fast, accessible, and AI-fri
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/przeprogramowani/10x-astro-starter.git
-cd 10x-astro-starter
+git clone https://github.com/pohormar/flash-deck.git
+cd flash-deck
 ```
 
 2. Install dependencies:
@@ -76,14 +76,6 @@ This project is configured with AI development tools to enhance the development 
 ### Cursor IDE
 
 The project includes AI rules in `.cursor/rules/` directory that help Cursor IDE understand the project structure and provide better code suggestions.
-
-### GitHub Copilot
-
-AI instructions for GitHub Copilot are available in `.github/copilot-instructions.md`
-
-### Windsurf
-
-The `.windsurfrules` file contains AI configuration for Windsurf.
 
 ## Contributing
 
