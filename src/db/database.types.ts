@@ -92,7 +92,15 @@ export interface Database {
           source_text_length?: number;
           user_id?: string;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "generation_error_logs_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       generations: {
         Row: {
@@ -134,7 +142,15 @@ export interface Database {
           updated_at?: string | null;
           user_id?: string;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "generations_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
       };
     };
     Views: Record<string, never>;
@@ -144,7 +160,7 @@ export interface Database {
     };
     CompositeTypes: Record<string, never>;
   };
-};
+}
 
 type DefaultSchema = Database[Extract<keyof Database, "public">];
 

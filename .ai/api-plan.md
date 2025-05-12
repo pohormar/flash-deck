@@ -15,7 +15,7 @@
 #### Start a new generation
 - **Method**: POST
 - **Path**: `/api/generations`
-- **Description**: Initiates a new flashcard generation proposals from source text
+- **Description**: Initiates a new flashcard AI generation proposals from source text
 - **Errors**: AI services errors logs should be recorded in `generation_error_logs`
 - **Request Body**:
   ```json
@@ -26,7 +26,6 @@
 - **Response**:
   ```json
   {
-    "id": 1,
     "user_id": "uuid",
     "source_text_length": 1234,
     "generation_duration": 3200,
@@ -34,19 +33,19 @@
     "flashcards_count": 10,
     "flashcards_proposals": [
       {
-        "id": 1,
+        "id": 1, // only when doing GET, not POST
         "front_text": "What is photosynthesis?",
         "back_text": "Photosynthesis is the process by which green plants and some other organisms use sunlight to synthesize nutrients from carbon dioxide and water.",
         "source_type": "ai_full"
       },
       {
-        "id": 2,
+        "id": 2, // only when doing GET, not POST
         "front_text": "What are the primary reactants in photosynthesis?",
         "back_text": "The primary reactants in photosynthesis are carbon dioxide, water, and sunlight energy.",
         "source_type": "ai_full"
       },
       {
-        "id": 3,
+        "id": 3, // only when doing GET, not POST
         "front_text": "What is the main product of photosynthesis?",
         "back_text": "The main products of photosynthesis are glucose (sugar) and oxygen.",
         "source_type": "ai_full"
@@ -322,27 +321,6 @@
   - 404 Not Found - Flashcard not found
 
  
-
-### User Data
-
-#### Export user data
-- **Method**: GET
-- **Path**: `/api/user/data`
-- **Description**: Exports all user data (GDPR compliance)
-- **Response**: Application/JSON file with all user data
-- **Success Codes**: 200 OK
-- **Error Codes**:
-  - 401 Unauthorized - User not authenticated
-
-#### Delete user account
-- **Method**: DELETE
-- **Path**: `/api/user`
-- **Description**: Deletes user account and all associated data
-- **Response**: None
-- **Success Codes**: 204 No Content
-- **Error Codes**:
-  - 401 Unauthorized - User not authenticated
-
 ### Generation Error Logs
 
 #### List generation error logs
@@ -444,20 +422,21 @@ CREATE POLICY flashcards_policy ON flashcards
 - Back text must be 1-500 characters
 - Source type must be one of: 'ai_full', 'ai_edited', 'manual'
 - User must be authenticated
-
+- Automatic update of the `updated_at` fields via database trigger when flashcards are modified
+- Flashcards can be modified in any time
 
 ### Business Logic Implementation
 
 1. **AI Flashcard Generation**
    - When a user submits text, the API initiates an async process to generate flashcards
-   - The API polls the LLM service for results and updates the generation record
-   - Generated flashcards are temporarily stored and associated with the generation
-   - User can review, edit, and accept flashcards into their collection
+   - The API polls the LLM service for results and returning flashcards proposals
+   - Generated flashcards proposals are temporarily stored as metadata 
+   - User can review, edit and accept flashcards into their collection
+   - Accepted flashcards should be saved to db together with it's "generation" data
 
-2. **User Data Management**
-   - Export functionality provides all user data in a structured format for GDPR compliance
-   - Account deletion cascades to all user data through database relationships
+2. **Manual Flashcard Generation**
+    - The user can add a flashcard manually; in such a case, the generation ID is saved as null and source_type as "manual"
 
-3 . **Error Handling**
-   - Generation errors are logged with detailed information for troubleshooting
+3. **Error Handling**
+   - Generation errors are logged with detailed information for troubleshooting in "generation_error_logs" table
    - Appropriate HTTP status codes and error messages are returned to the client 
