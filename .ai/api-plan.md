@@ -26,33 +26,33 @@
 - **Response**:
   ```json
   {
-    "id": "uuid",
+    "id": 1,
     "user_id": "uuid",
     "source_text_length": 1234,
     "generation_duration": 3200,
     "created_at": "timestamp",
     "flashcards_count": 10,
-    "flashcards": [
+    "flashcards_proposals": [
       {
-        "id": "card-1",
+        "id": 1,
         "front_text": "What is photosynthesis?",
         "back_text": "Photosynthesis is the process by which green plants and some other organisms use sunlight to synthesize nutrients from carbon dioxide and water.",
-        "source_type": "ai_full",
+        "source_type": "ai_full"
       },
       {
-        "id": "card-2",
+        "id": 2,
         "front_text": "What are the primary reactants in photosynthesis?",
         "back_text": "The primary reactants in photosynthesis are carbon dioxide, water, and sunlight energy.",
-        "source_type": "ai_full",
+        "source_type": "ai_full"
       },
       {
-        "id": "card-3",
+        "id": 3,
         "front_text": "What is the main product of photosynthesis?",
         "back_text": "The main products of photosynthesis are glucose (sugar) and oxygen.",
-        "source_type": "ai_full",
+        "source_type": "ai_full"
       }
     ]
-      }
+  }
   ```
 - **Success Codes**: 200 OK (if synchronous) or 202 Accepted (if asynchronous)
 - **Error Codes**: 
@@ -67,7 +67,7 @@
 - **Response**:
   ```json
   {
-    "id": "uuid",
+    "id": 1,
     "user_id": "uuid",
     "source_text_length": 1234,
     "generation_duration": 3200,
@@ -75,19 +75,19 @@
     "flashcards_count": 10,
     "flashcards": [
       {
-        "id": "card-1",
+        "id": 1,
         "front_text": "What is photosynthesis?",
         "back_text": "Photosynthesis is the process by which green plants and some other organisms use sunlight to synthesize nutrients from carbon dioxide and water.",
         "source_type": "ai_full"
       },
       {
-        "id": "card-2",
+        "id": 2,
         "front_text": "What are the primary reactants in photosynthesis?",
         "back_text": "The primary reactants in photosynthesis are carbon dioxide, water, and sunlight energy.",
         "source_type": "ai_full"
       },
       {
-        "id": "card-3",
+        "id": 3,
         "front_text": "What is the main product of photosynthesis?",
         "back_text": "The main products of photosynthesis are glucose (sugar) and oxygen.",
         "source_type": "ai_full"
@@ -115,12 +115,12 @@
   {
     "data": [
       {
-        "id": "uuid",
+        "id": 1,
         "source_text_length": 1234,
         "created_at": "timestamp",
         "flashcards_count": 10,
         "accepted_unedited_count": 7,
-        "accepted_edited_count": 2,
+        "accepted_edited_count": 2
       }
     ],
     "pagination": {
@@ -144,10 +144,10 @@
   {
     "flashcards": [
       {
-        "id": "uuid",
+        "id": 1,
         "front_text": "Question?", 
         "back_text": "Answer",
-        "source": "manual",
+        "source_type": "manual",
         "generation_id": null
       }
     ]
@@ -159,7 +159,7 @@
     "accepted_count": 5,
     "flashcards": [
       {
-        "id": "uuid",
+        "id": 1,
         "front_text": "Question?",
         "back_text": "Answer",
         "created_at": "timestamp"
@@ -194,8 +194,8 @@
     "back_text": "Answer 2",
     "source_type": "ai-full",
     "generation_id": 1234
-    },
-    ]
+    }
+  ]
   }
   ```
 - **Response**:
@@ -212,8 +212,8 @@
     "back_text": "Answer 2",
     "source_type": "ai-full",
     "generation_id": 1234
-    },
-    ]
+    }
+  ]
   } 
   ```
 - **Success Codes**: 201 Created
@@ -237,12 +237,12 @@
   {
     "data": [
       {
-        "id": "uuid",
+        "id": 1,
         "front_text": "Question?",
         "back_text": "Answer",
         "created_at": "timestamp",
         "updated_at": "timestamp", 
-        "source_type": "manual",
+        "source_type": "manual"
       }
     ],
     "pagination": {
@@ -264,14 +264,14 @@
 - **Response**:
   ```json
   {
-    "id": "uuid",
+    "id": 1,
     "front_text": "Question?",
     "back_text": "Answer",
     "user_id": "uuid",
     "created_at": "timestamp",
     "updated_at": "timestamp",
     "source_type": "manual",
-    "generation_id": null,
+    "generation_id": null
   }
   ```
 - **Success Codes**: 200 OK
@@ -294,7 +294,7 @@
 - **Response**:
   ```json
   {
-    "id": "uuid",
+    "id": 1,
     "front_text": "Updated question?",
     "back_text": "Updated answer",
     "user_id": "uuid",
@@ -359,7 +359,7 @@
   {
     "data": [
       {
-        "id": "uuid",
+        "id": 1,
         "user_id": "uuid",
         "model": "gpt-4",
         "source_text_length": 2500,
@@ -387,7 +387,7 @@
 - **Response**:
   ```json
   {
-    "id": "uuid",
+    "id": 1,
     "user_id": "uuid",
     "model": "gpt-4",
     "source_text": "Full text that caused the error...",

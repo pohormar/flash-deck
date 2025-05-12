@@ -25,8 +25,8 @@ export interface Database {
           back_text: string;
           created_at: string | null;
           front_text: string;
-          generation_id: string | null;
-          id: string;
+          generation_id: number | null;
+          id: number;
           source_type: Database["public"]["Enums"]["source_type"];
           updated_at: string | null;
           user_id: string;
@@ -35,8 +35,8 @@ export interface Database {
           back_text: string;
           created_at?: string | null;
           front_text: string;
-          generation_id?: string | null;
-          id?: string;
+          generation_id?: number | null;
+          id?: number;
           source_type: Database["public"]["Enums"]["source_type"];
           updated_at?: string | null;
           user_id: string;
@@ -45,8 +45,8 @@ export interface Database {
           back_text?: string;
           created_at?: string | null;
           front_text?: string;
-          generation_id?: string | null;
-          id?: string;
+          generation_id?: number | null;
+          id?: number;
           source_type?: Database["public"]["Enums"]["source_type"];
           updated_at?: string | null;
           user_id?: string;
@@ -66,7 +66,7 @@ export interface Database {
           created_at: string | null;
           error_code: string;
           error_message: string;
-          id: string;
+          id: number;
           model: string;
           source_text: string;
           source_text_length: number;
@@ -76,7 +76,7 @@ export interface Database {
           created_at?: string | null;
           error_code: string;
           error_message: string;
-          id?: string;
+          id?: number;
           model: string;
           source_text: string;
           source_text_length: number;
@@ -86,7 +86,7 @@ export interface Database {
           created_at?: string | null;
           error_code?: string;
           error_message?: string;
-          id?: string;
+          id?: number;
           model?: string;
           source_text?: string;
           source_text_length?: number;
@@ -102,7 +102,7 @@ export interface Database {
           error_message: string | null;
           flashcards_count: number;
           generation_duration: number | null;
-          id: string;
+          id: number;
           source_text: string;
           source_text_length: number;
           updated_at: string | null;
@@ -115,7 +115,7 @@ export interface Database {
           error_message?: string | null;
           flashcards_count?: number;
           generation_duration?: number | null;
-          id?: string;
+          id?: number;
           source_text: string;
           source_text_length: number;
           updated_at?: string | null;
@@ -128,7 +128,7 @@ export interface Database {
           error_message?: string | null;
           flashcards_count?: number;
           generation_duration?: number | null;
-          id?: string;
+          id?: number;
           source_text?: string;
           source_text_length?: number;
           updated_at?: string | null;

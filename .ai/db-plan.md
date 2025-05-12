@@ -10,7 +10,7 @@ Tabela "users" będzie obsługiwana przez Supabase Auth
 ### generations
 ```sql
 CREATE TABLE generations (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id SERIAL PRIMARY KEY,
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     source_text TEXT NOT NULL,
     source_text_length INTEGER NOT NULL CHECK(source_text_length BETWEEN 1000 and 10000),
@@ -31,11 +31,11 @@ CREATE INDEX idx_generations_user_id ON generations(user_id);
 CREATE TYPE source_type AS ENUM ('ai_full', 'ai_edited', 'manual');
 
 CREATE TABLE flashcards (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id SERIAL PRIMARY KEY,
     front_text VARCHAR(200) NOT NULL,
     back_text VARCHAR(500) NOT NULL,
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
-    generation_id UUID REFERENCES generations(id) ON DELETE SET NULL,
+    generation_id INTEGER REFERENCES generations(id) ON DELETE SET NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE,
     source_type source_type NOT NULL
@@ -48,7 +48,7 @@ CREATE INDEX idx_flashcards_generation_id ON flashcards(generation_id);
 ### generation_error_logs
 ```sql
 CREATE TABLE generation_error_logs (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id SERIAL PRIMARY KEY,
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     model TEXT NOT NULL,
     source_text TEXT NOT NULL,

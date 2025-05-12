@@ -7,7 +7,7 @@ create extension if not exists "uuid-ossp";
 
 -- create generations table
 create table generations (
-    id uuid primary key default uuid_generate_v4(),
+    id SERIAL PRIMARY KEY,
     user_id uuid not null references auth.users(id) on delete cascade,
     source_text text not null,
     source_text_length integer not null check(source_text_length between 1000 and 10000),
@@ -31,11 +31,11 @@ create type source_type as enum ('ai_full', 'ai_edited', 'manual');
 
 -- create flashcards table
 create table flashcards (
-    id uuid primary key default uuid_generate_v4(),
+    id SERIAL PRIMARY KEY,
     front_text varchar(200) not null,
     back_text varchar(500) not null,
     user_id uuid not null references auth.users(id) on delete cascade,
-    generation_id uuid references generations(id) on delete set null,
+    generation_id integer references generations(id) on delete set null,
     created_at timestamp with time zone default now(),
     updated_at timestamp with time zone,
     source_type source_type not null
@@ -50,7 +50,7 @@ alter table flashcards enable row level security;
 
 -- create generation_error_logs table
 create table generation_error_logs (
-    id uuid primary key default uuid_generate_v4(),
+    id SERIAL PRIMARY KEY,
     user_id uuid not null references auth.users(id) on delete cascade,
     model text not null,
     source_text text not null,
