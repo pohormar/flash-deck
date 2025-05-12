@@ -16,10 +16,10 @@ CREATE TABLE generations (
     source_text_length INTEGER NOT NULL CHECK(source_text_length BETWEEN 1000 and 10000),
     generation_duration INTEGER, 
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE,
     flashcards_count INTEGER NOT NULL DEFAULT 0,
-    accepted_unedited_count INTEGER NULLABLE,
-    accepted_edited_count INTEGER NULLABLE,
+    accepted_unedited_count INTEGER,
+    accepted_edited_count INTEGER,
     error_message TEXT
 );
 
@@ -37,30 +37,12 @@ CREATE TABLE flashcards (
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     generation_id UUID REFERENCES generations(id) ON DELETE SET NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    source_type source_type NOT NULL,
-    is_edited BOOLEAN DEFAULT FALSE
-);
+    updated_at TIMESTAMP WITH TIME ZONE,
+    source_type source_type NOT NULL
+    );
 
 CREATE INDEX idx_flashcards_user_id ON flashcards(user_id);
 CREATE INDEX idx_flashcards_generation_id ON flashcards(generation_id);
-```
-
-### flashcard_progress
-```sql
-CREATE TABLE flashcard_progress (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    flashcard_id UUID NOT NULL REFERENCES flashcards(id) ON DELETE CASCADE,
-    user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
-    ease_factor FLOAT NOT NULL DEFAULT 2.5,
-    interval INTEGER NOT NULL DEFAULT 1,
-    next_review_date TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    review_count INTEGER NOT NULL DEFAULT 0,
-    UNIQUE(flashcard_id, user_id)
-);
-
-CREATE INDEX idx_flashcard_progress_user_id_next_review ON flashcard_progress(user_id, next_review_date);
-CREATE INDEX idx_flashcard_progress_flashcard_id ON flashcard_progress(flashcard_id);
 ```
 
 ### generation_error_logs
@@ -82,20 +64,16 @@ CREATE INDEX idx_generation_error_logs_user_id ON generation_error_logs(user_id)
 ## 2. Relacje między tabelami
 
 1. **auth.users - flashcards**: Relacja jeden-do-wielu. Jeden użytkownik może mieć wiele fiszek.
-2. **auth.users - flashcard_progress**: Relacja jeden-do-wielu. Jeden użytkownik może mieć wiele rekordów postępu nauki.
-3. **flashcards - flashcard_progress**: Relacja jeden-do-jeden. Każda fiszka ma jeden rekord postępu nauki dla danego użytkownika.
-4. **auth.users - generations**: Relacja jeden-do-wielu. Jeden użytkownik może mieć wiele historii generowania przez AI.
-5. **generations - flashcards**: Relacja jeden-do-wielu. Jedna sesja generowania może utworzyć wiele fiszek. Każda fiszka może opcjonalnie odnosić się do jednej sesji generowania (generations) poprzez pole generation_id.
-6. **auth.users - generation_error_logs**: Relacja jeden-do-wielu. Jeden użytkownik może mieć wiele logów błędów generowania.
+2. **auth.users - generations**: Relacja jeden-do-wielu. Jeden użytkownik może mieć wiele historii generowania przez AI.
+3. **generations - flashcards**: Relacja jeden-do-wielu. Jedna sesja generowania może utworzyć wiele fiszek. Każda fiszka może opcjonalnie odnosić się do jednej sesji generowania (generations) poprzez pole generation_id.
+4. **auth.users - generation_error_logs**: Relacja jeden-do-wielu. Jeden użytkownik może mieć wiele logów błędów generowania.
 
 ## 3. Indeksy
 
 1. `idx_flashcards_user_id`: Indeks na polu user_id w tabeli flashcards.
 2. `idx_flashcards_generation_id`: Indeks na polu generation_id w tabeli flashcards.
-3. `idx_flashcard_progress_user_id_next_review`: Złożony indeks na polach user_id i next_review_date w tabeli flashcard_progress.
-4. `idx_flashcard_progress_flashcard_id`: Indeks na polu flashcard_id w tabeli flashcard_progress.
-5. `idx_generations_user_id`: Indeks na polu user_id w tabeli generations.
-6. `idx_generation_error_logs_user_id`: Indeks na polu user_id w tabeli generation_error_logs.
+3. `idx_generations_user_id`: Indeks na polu user_id w tabeli generations.
+4. `idx_generation_error_logs_user_id`: Indeks na polu user_id w tabeli generation_error_logs.
 
 ## 4. Triggery i funkcje
 
@@ -126,15 +104,11 @@ EXECUTE FUNCTION update_updated_at();
 ```sql
 -- Włączenie RLS dla wszystkich tabel
 ALTER TABLE flashcards ENABLE ROW LEVEL SECURITY;
-ALTER TABLE flashcard_progress ENABLE ROW LEVEL SECURITY;
 ALTER TABLE generations ENABLE ROW LEVEL SECURITY;
 ALTER TABLE generation_error_logs ENABLE ROW LEVEL SECURITY;
 
 -- Polityki dostępu dla wszystkich operacji
 CREATE POLICY flashcards_policy ON flashcards 
-    USING (auth.uid() = user_id);
-
-CREATE POLICY flashcard_progress_policy ON flashcard_progress 
     USING (auth.uid() = user_id);
 
 CREATE POLICY generations_policy ON generations 

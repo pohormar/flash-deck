@@ -9,13 +9,6 @@ drop policy if exists "Users can update their own flashcards" on flashcards;
 drop policy if exists "Users can delete their own flashcards" on flashcards;
 drop policy if exists "Anonymous users cannot access flashcards" on flashcards;
 
--- Disable policies for flashcard_progress table
-drop policy if exists "Users can select their own flashcard progress" on flashcard_progress;
-drop policy if exists "Users can insert their own flashcard progress" on flashcard_progress;
-drop policy if exists "Users can update their own flashcard progress" on flashcard_progress;
-drop policy if exists "Users can delete their own flashcard progress" on flashcard_progress;
-drop policy if exists "Anonymous users cannot access flashcard progress" on flashcard_progress;
-
 -- Disable policies for generations table
 drop policy if exists "Users can select their own generations" on generations;
 drop policy if exists "Users can insert their own generations" on generations;
